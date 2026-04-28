@@ -16,7 +16,7 @@ Covered or active data families include:
 | FinePDFs | Present in the catalogue and active English mix discussions. |
 | HPLT 3 / HPLT 4 | Present and actively evaluated for multilingual and English data. |
 | Nemotron-CC | Present and actively used. |
-| Nemotron-CC-Math / ClimbMix / FinePhrase | Discussed or tested on the board. |
+| Nemotron-CC-Math / ClimbMix / FinePhrase | Discussed or tested in current dataset work. |
 | Common Pile | Present in the catalogue and discussed as a future run candidate. |
 | The Stack / StarCoder / The Stack 2 | Present or discussed for code mixture work. |
 | MegaMath / FineMath | Used in math/code mixture ablations. |
@@ -26,9 +26,9 @@ Covered or active data families include:
 | OpenThoughts | Already listed in the catalogue and related post-training work. |
 | MaLA translation corpus | Active parallel-data experiment; quality issues noted. |
 
-## Important Board Signals
+## Important OpenEuroLLM Signals
 
-The candidate list is shaped by a few findings from the board:
+The candidate list is shaped by a few findings from OpenEuroLLM dataset work:
 
 - OpenEuroLLM is revisiting flagship data mixtures, especially English,
   multilingual, code, math, and parallel data.
@@ -41,8 +41,8 @@ The candidate list is shaped by a few findings from the board:
   did not clearly solve English forgetting in the referenced OLMo-3 experiment.
 - HPLT4 and quality signals such as WDS, Propella, BSC-Edu, and JQL are active
   areas for pre-training selection.
-- Tool calling is present as an open task, but the board does not appear to
-  have a mature Swedish/EU tool-calling data recipe yet.
+- Tool calling is present as an active direction, but there does not appear to
+  be a mature localized tool-calling data recipe for OpenEuroLLM languages yet.
 
 ## What This Repo Adds
 
@@ -56,9 +56,8 @@ The main gaps are:
 - reward-model and judge-alignment data;
 - instruction-following and constraint-following data;
 - function-calling and structured-output data;
-- Swedish-first adaptation recipes.
+- target-language adaptation recipes for OpenEuroLLM languages.
 
 The most immediately useful candidates are Aya Dataset and HelpSteer3 because
 they are relevant, reasonably clear to use, and have comparatively friendly
 licenses.
-

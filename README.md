@@ -1,16 +1,14 @@
-# Swedish and European LLM Post-Training Dataset Candidates
+# OpenEuroLLM Language Post-Training Dataset Candidates
 
-A practical catalogue of dataset candidates for Swedish and European-language
-LLM post-training. The focus is on datasets that can help with supervised
+A practical catalogue of dataset candidates for OpenEuroLLM target-language
+post-training. The focus is on datasets that can help with supervised
 fine-tuning, preference tuning, reward modeling, tool use, instruction
-following, multilingual reasoning, and Swedish-first adaptation.
+following, multilingual reasoning, and adaptation across European languages.
 
 This repo was created from a comparison between:
 
-- the OpenEuroLLM WP4 board and training-data catalogue;
-- [mlabonne/llm-datasets](https://github.com/mlabonne/llm-datasets);
-- active OpenEuroLLM questions around Swedish/EU languages, data mixtures,
-  instruction tuning, and evaluation.
+- OpenEuroLLM datasets;
+- [mlabonne/llm-datasets](https://github.com/mlabonne/llm-datasets).
 
 The main conclusion is simple: OpenEuroLLM is already strong on pre-training
 corpora. The most interesting gaps are in post-training data.
@@ -19,51 +17,51 @@ corpora. The most interesting gaps are in post-training data.
 
 Use this repo to answer:
 
-- Which datasets should we test for Swedish and European instruction tuning?
+- Which datasets should we test for OpenEuroLLM target-language instruction tuning?
 - Which datasets are useful for SFT, DPO, reward models, or tool calling?
 - Which candidates are production-friendly and which are research-only?
-- Which datasets should be translated or adapted into Swedish?
+- Which datasets should be translated or adapted into OpenEuroLLM languages?
 - Which datasets are already covered by OpenEuroLLM work?
 
 ## Files
 
 | Path | Purpose |
 | --- | --- |
-| [data/candidates.csv](data/candidates.csv) | Structured candidate table with category, size, license, Swedish/EU fit, recommendation, use cases, and cautions. |
+| [data/candidates.csv](data/candidates.csv) | Structured candidate table with category, size, license, OpenEuroLLM-language fit, recommendation, use cases, and cautions. |
 | [docs/dataset-guide.md](docs/dataset-guide.md) | Detailed explanation of every major candidate and how to use it. |
 | [docs/open-eurollm-context.md](docs/open-eurollm-context.md) | Notes on what OpenEuroLLM already appears to cover and where these candidates fit. |
-| [docs/swedish-first-recipe.md](docs/swedish-first-recipe.md) | A concrete Swedish-first post-training recipe using the best candidates. |
+| [docs/open-eurollm-language-recipe.md](docs/open-eurollm-language-recipe.md) | A concrete target-language post-training recipe using the best candidates. |
 
 ## Best Candidates
 
 | Priority | Dataset | Why It Matters |
 | --- | --- | --- |
-| Very high | [Aya Dataset](https://huggingface.co/datasets/CohereForAI/aya_dataset) | Human-annotated multilingual SFT data with permissive licensing. Best first candidate for Swedish/EU instruction seeds. |
+| Very high | [Aya Dataset](https://huggingface.co/datasets/CohereForAI/aya_dataset) | Human-annotated multilingual SFT data with permissive licensing. Best first candidate for target-language instruction seeds. |
 | Very high | [HelpSteer3](https://huggingface.co/datasets/nvidia/HelpSteer3) | Preference, feedback, and edit data for DPO, reward models, and judge calibration. |
 | High | [M2Lingual](https://huggingface.co/datasets/ServiceNow-AI/M2Lingual) | Multilingual multi-turn SFT data. Useful for research and benchmark design, but license likely limits production use. |
-| High | [AutoIF-instruct](https://huggingface.co/datasets/Post-training-Data-Flywheel/AutoIF-instruct-61k-with-funcs) and [ifeval-like-data](https://huggingface.co/datasets/argilla/ifeval-like-data) | Good candidates for Swedish instruction-following and constraint-following data. |
-| High | [xLAM function calling](https://huggingface.co/datasets/Salesforce/xlam-function-calling-60k), [ToolACE](https://huggingface.co/datasets/Team-ACE/ToolACE), [Hermes function calling](https://huggingface.co/datasets/NousResearch/hermes-function-calling-v1) | Useful for tool calling, structured output, and Swedish public-service tool tasks. |
-| Medium-high | [Nemotron-SFT-Multilingual-v1](https://huggingface.co/datasets/nvidia/Nemotron-SFT-Multilingual-v1) | Useful multilingual reasoning baseline for supported EU languages, though not directly Swedish. |
-| Medium-high | [MathX-5M](https://huggingface.co/datasets/Modotte/MathX-5M), [NuminaMath-CoT](https://huggingface.co/datasets/AI-MO/NuminaMath-CoT), [Nemotron-Math-Proofs-v1](https://huggingface.co/datasets/nvidia/Nemotron-Math-Proofs-v1) | Reasoning SFT candidates. Best tested through small Swedish STEM translation/adaptation slices. |
+| High | [AutoIF-instruct](https://huggingface.co/datasets/Post-training-Data-Flywheel/AutoIF-instruct-61k-with-funcs) and [ifeval-like-data](https://huggingface.co/datasets/argilla/ifeval-like-data) | Good candidates for target-language instruction-following and constraint-following data. |
+| High | [xLAM function calling](https://huggingface.co/datasets/Salesforce/xlam-function-calling-60k), [ToolACE](https://huggingface.co/datasets/Team-ACE/ToolACE), [Hermes function calling](https://huggingface.co/datasets/NousResearch/hermes-function-calling-v1) | Useful for tool calling, structured output, and localized tool tasks. |
+| Medium-high | [Nemotron-SFT-Multilingual-v1](https://huggingface.co/datasets/nvidia/Nemotron-SFT-Multilingual-v1) | Useful multilingual reasoning baseline for supported European languages; coverage should be checked against OpenEuroLLM targets. |
+| Medium-high | [MathX-5M](https://huggingface.co/datasets/Modotte/MathX-5M), [NuminaMath-CoT](https://huggingface.co/datasets/AI-MO/NuminaMath-CoT), [Nemotron-Math-Proofs-v1](https://huggingface.co/datasets/nvidia/Nemotron-Math-Proofs-v1) | Reasoning SFT candidates. Best tested through small STEM translation/adaptation slices per target language. |
 
 ## Recommended First Project
 
-The strongest Swedish-first experiment is:
+The strongest first experiment is:
 
-**Swedish instruction and preference mixture for multilingual post-training.**
+**Target-language instruction and preference mixtures for multilingual post-training.**
 
 Start with:
 
 - English replay data from Dolci-style source data, to avoid English collapse;
-- Swedish SFT data from Aya plus translated Dolci;
-- Swedish constraint-following data from IFEval-like sources;
-- HelpSteer3 preference/edit data, either Swedish if available or carefully
-  translated/adapted;
-- a small Swedish tool-calling set using xLAM/Hermes-style schemas;
-- native Swedish evaluation prompts plus English retention checks.
+- target-language SFT data from Aya plus translated Dolci;
+- target-language constraint-following data from IFEval-like sources;
+- HelpSteer3 preference/edit data, either directly in the target language or
+  carefully translated/adapted;
+- small localized tool-calling sets using xLAM/Hermes-style schemas;
+- native evaluation prompts for each language plus English retention checks.
 
-See [docs/swedish-first-recipe.md](docs/swedish-first-recipe.md) for a concrete
-plan.
+See [docs/open-eurollm-language-recipe.md](docs/open-eurollm-language-recipe.md)
+for a concrete plan.
 
 ## Licensing Notes
 
@@ -103,4 +101,3 @@ for row in top:
 Draft, April 2026. The candidates should be treated as a research and planning
 aid until each dataset has been sampled, license-checked, decontaminated, and
 tested in small ablations.
-

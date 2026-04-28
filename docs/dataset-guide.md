@@ -1,22 +1,22 @@
 # Dataset Guide
 
 This guide explains the main dataset candidates in practical terms: what they
-are, when to use them, what to avoid, and how they fit a Swedish or European
-LLM post-training plan.
+are, when to use them, what to avoid, and how they fit an OpenEuroLLM
+target-language post-training plan.
 
 ## Quick Decision Table
 
 | Goal | Best First Candidates |
 | --- | --- |
-| Swedish instruction tuning | Aya Dataset, translated Dolci, IFEval-like translated data |
+| Target-language instruction tuning | Aya Dataset, translated Dolci, IFEval-like translated data |
 | Preference tuning / DPO | HelpSteer3, Dolci-DPO, UltraFeedback cleaned |
 | Reward model or judge model | HelpSteer3, Skywork Reward Preference, Arena preference data |
 | Tool calling | xLAM function calling, Hermes function calling, ToolACE |
-| Swedish constraint following | IFEval-like data, AutoIF-instruct, native Swedish prompts |
+| Target-language constraint following | IFEval-like data, AutoIF-instruct, native language prompts |
 | Multilingual multi-turn chat | Aya Dataset, M2Lingual |
 | Reasoning SFT | MathX, NuminaMath-CoT, Nemotron Math, OpenThoughts |
 | Code SFT | CodeX, rStar-Coder, Nemotron code datasets |
-| Safety and over-refusal | FalseReject, manually adapted Swedish safety prompts |
+| Safety and over-refusal | FalseReject, manually adapted target-language safety prompts |
 
 ## Aya Dataset
 
@@ -28,7 +28,7 @@ across many languages.
 
 Use it for:
 
-- Swedish and EU-language SFT seed data;
+- target-language and EU-language SFT seed data;
 - human-authored multilingual examples;
 - evaluation prompt seeds;
 - comparison against translated synthetic instruction data.
@@ -36,8 +36,9 @@ Use it for:
 Why it matters:
 
 OpenEuroLLM is already translating Dolci into several European languages,
-including Swedish. Aya gives a different signal: native or community-authored
-multilingual instructions rather than only translated English-centric data.
+including several OpenEuroLLM target languages. Aya gives a different signal:
+native or community-authored multilingual instructions rather than only
+translated English-centric data.
 
 First experiment:
 
@@ -45,18 +46,18 @@ Train a small SFT ablation:
 
 | Run | Data |
 | --- | --- |
-| A | English replay + translated Dolci Swedish |
-| B | English replay + Aya Swedish |
-| C | English replay + translated Dolci Swedish + Aya Swedish |
+| A | English replay + translated Dolci for one target language |
+| B | English replay + Aya examples for the same target language |
+| C | English replay + translated Dolci + Aya for the same target language |
 
-Evaluate Swedish capability, English retention, and general EU-language
+Evaluate target-language capability, English retention, and general EU-language
 instruction behavior.
 
 Cautions:
 
-- Check actual Swedish coverage and quality.
+- Check actual target-language coverage and quality.
 - Keep source metadata.
-- Deduplicate against any Swedish eval set.
+- Deduplicate against any target-language eval set.
 
 ## HelpSteer3
 
@@ -89,12 +90,13 @@ Compare:
 | B | HelpSteer3 preference subset |
 | C | Dolci-DPO + HelpSteer3 |
 
-Evaluate on Arena-Hard, m-Arena-Hard, Swedish native prompts, over-refusal, and
-English retention.
+Evaluate on Arena-Hard, m-Arena-Hard, native target-language prompts,
+over-refusal, and English retention.
 
 Cautions:
 
-- Confirm whether Swedish is present in the multilingual subset.
+- Confirm which OpenEuroLLM target languages are present in the multilingual
+  subset.
 - Do not mix preference/edit data into SFT without conversion.
 - Keep preference, feedback, and edit tasks as separate data types.
 
@@ -109,7 +111,7 @@ makes it unsuitable for production model training.
 Use it for:
 
 - research-only multilingual multi-turn ablations;
-- Swedish benchmark design;
+- target-language benchmark design;
 - comparing task-evolved data against human-authored data;
 - studying transfer across languages.
 
@@ -134,16 +136,16 @@ ordering, and other prompt rules.
 
 Use them for:
 
-- Swedish instruction-following SFT;
+- target-language instruction-following SFT;
 - IFEval-style training;
-- native Swedish formatting and register control;
+- native language formatting and register control;
 - public-sector writing constraints.
 
-Suggested Swedish adaptations:
+Suggested target-language adaptations:
 
-- "Answer only in Swedish."
-- "Use plain Swedish suitable for a public authority website."
-- "Use Swedish date format."
+- "Answer only in the requested language."
+- "Use plain language suitable for a public authority website."
+- "Use the local date format."
 - "Use formal tone, but avoid bureaucratic wording."
 - "Return exactly three bullet points."
 - "Summarize the source text without adding facts."
@@ -151,7 +153,7 @@ Suggested Swedish adaptations:
 Cautions:
 
 - Check contamination against IFEval.
-- Keep translated and native Swedish prompts separate.
+- Keep translated and native prompts separate.
 - Constraint-following gains can be brittle; evaluate directly.
 
 ## Tool Calling and Structured Output
@@ -175,14 +177,14 @@ Use them for:
 - multi-turn tool trajectories;
 - structured output reliability.
 
-Swedish-specific angle:
+Localized angle:
 
-Create Swedish tool tasks around local needs:
+Create tool tasks around local needs in each target language:
 
 - finding a care provider;
-- summarizing a 1177-style page;
-- filling a municipality form;
-- searching a Swedish document collection;
+- summarizing a public-service information page;
+- filling a local authority form;
+- searching a document collection in the target language;
 - booking or rescheduling an appointment;
 - retrieving public-sector contact information.
 
@@ -190,7 +192,7 @@ Cautions:
 
 - Normalize all tool schemas before mixing datasets.
 - Evaluate exact JSON validity and argument accuracy.
-- Do not assume English function-calling data teaches Swedish tool use.
+- Do not assume English function-calling data teaches localized tool use.
 
 ## Multilingual Reasoning
 
@@ -213,7 +215,7 @@ Use them for:
 
 - reasoning SFT;
 - math/science instruction tuning;
-- small Swedish STEM translation experiments;
+- small STEM translation experiments for target languages;
 - measuring whether reasoning traces transfer across languages.
 
 Cautions:
@@ -221,7 +223,8 @@ Cautions:
 - Chain-of-thought style data affects model behavior and should be handled
   deliberately.
 - Translated math prompts need native review.
-- Swedish STEM evaluation should include direct-answer and explanation modes.
+- target-language STEM evaluation should include direct-answer and explanation
+  modes.
 
 ## Code and Software Engineering
 
@@ -271,11 +274,10 @@ Use it for:
 
 - over-refusal evaluation;
 - safety DPO research;
-- Swedish public-sector and health-information adaptations.
+- target-language public-sector and health-information adaptations.
 
 Cautions:
 
 - License is CC-BY-NC-4.0.
 - Needs safety review.
-- Swedish adaptations should be manually reviewed.
-
+- target-language adaptations should be manually reviewed.
